@@ -1,5 +1,5 @@
 {
-    "name": "@roadup/smi",
+    "name": "@uploy/smi",
     "version": "0.0.1",
     "main": "main.js",
     "license": "MIT",
@@ -11,16 +11,17 @@
         "@babel/plugin-proposal-export-default-from": "^7.5.2",
         "@babel/plugin-proposal-throw-expressions": "^7.2.0",
         "@babel/types": "^7.6.3",
-        "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-        "@vivaxy/wxml": "^2.0.0",
+        "@vivaxy/wxml": "^2.0.1",
         "babel": "^6.23.0",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.1.0",
         "babel-minify": "^0.5.1",
+        "babel-plugin-transform-inline-environment-variables": "^0.4.3",
         "babel-plugin-uglify": "^1.0.2",
         "colors": "^1.4.0",
         "eslint": "^6.5.1",
         "eslint-config-prettier": "^6.4.0",
+        "node-sass": "^4.14.1",
         "yaml": "^1.7.2"
     }
 }

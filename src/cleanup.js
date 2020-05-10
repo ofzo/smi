@@ -1,6 +1,6 @@
 const fs = require("fs")
 const path = require("path")
-function cleanup(p) {
+module.exports = function cleanup(p) {
     if (fs.existsSync(p)) {
         if (fs.statSync(p).isDirectory()) {
             fs.readdirSync(p).forEach(item => {
@@ -15,4 +15,3 @@ function cleanup(p) {
         fs.mkdirSync(p)
     }
 }
-exports.cleanup = cleanup

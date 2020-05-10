@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "vivaxy"
-    ]
+    ],
+    "javascript.format.semicolons": "remove"
 }

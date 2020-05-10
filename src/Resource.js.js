@@ -12,7 +12,7 @@ module.exports = class JsResource extends Resource {
     complier() {
         try {
             const self = this
-            this.content = babel.transformSync(this.source, {
+            this.content = babel.transformSync(this.source.toString(), {
                 plugins: [evnReplace, {
                     visitor: {
                         ImportDeclaration(path) {

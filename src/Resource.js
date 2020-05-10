@@ -32,7 +32,7 @@ module.exports = class Resource {
                 console.log("[文件过大]", this.path.replace(process.cwd(), "") + "(" + Math.ceil(this.size / 1024) + "kb)")
             }
         }
-        this.source = fs.readFileSync(this.path).toString()
+        this.source = fs.readFileSync(this.path)
         this.requires = new Set()
         this.content = this.source
     }

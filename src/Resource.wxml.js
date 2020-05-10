@@ -12,7 +12,7 @@ module.exports = class WXMLResource extends Resource {
         !this.notFound && this.complier()
     }
     complier() {
-        const ast = wxml.parse(this.source)
+        const ast = wxml.parse(this.source.toString())
         const self = this
         try {
             wxml.traverse(ast, (node) => {

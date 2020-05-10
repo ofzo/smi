@@ -17,9 +17,9 @@ module.exports = class StyleResource extends Resource {
 
         const palette = palettes[this.type]
         if (this.type === "scss") {
-            let data = this.source
+            let data = this.source.toString()
             if (palette) {
-                data = palette + "\n" + this.source
+                data = palette + "\n" + data
             }
             const outFile = this.path.replace(new RegExp(`\\.${this.type}$`), "wxss")
             try {

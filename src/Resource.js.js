@@ -7,6 +7,7 @@ module.exports = class JsResource extends Resource {
     constructor(filePath) {
         super(filePath)
         this.pages = new Set()
+        this.modules = new Set()
         !this.notFound && this.complier()
     }
     complier() {
@@ -17,7 +18,7 @@ module.exports = class JsResource extends Resource {
                     visitor: {
                         ImportDeclaration(path) {
                             const value = path.node.source.value
-                            self.requires.add(self.resolve(value))
+                            self.resolve(value, self.requires)
                         },
                         CallExpression(path) {
                             // @ts-ignore
@@ -25,7 +26,7 @@ module.exports = class JsResource extends Resource {
                                 // @ts-ignore
                                 const module = path.node.arguments[0].value
                                 // @ts-ignore
-                                self.requires.add(self.resolve(module))
+                                self.resolve(module, self.requires)
                                 return
                             }
                             // @ts-ignore
@@ -34,7 +35,7 @@ module.exports = class JsResource extends Resource {
                                 const page = path.node.arguments[0].value
                                 // @ts-ignore
                                 path.replaceWith(types.valueToNode(page.replace(/^@/, "/")))
-                                self.pages.add(self.resolve(page))
+                                self.resolve(page, self.pages)
                                 return
                             }
                             // @ts-ignore
@@ -43,7 +44,7 @@ module.exports = class JsResource extends Resource {
                                 const file = path.node.arguments[0].value
                                 // @ts-ignore
                                 path.replaceWith(types.valueToNode(file.replace(/^@/, "/")))
-                                self.requires.add(self.resolve(file))
+                                self.resolve(file, self.requires)
                                 return
                             }
                         }
@@ -52,7 +53,7 @@ module.exports = class JsResource extends Resource {
                 ]
             }).code
         } catch (error) {
-            console.log("编译失败", this.path)
+            console.log("[编译失败]", this.path)
             console.log(error)
             process.exit(0)
         }

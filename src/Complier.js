@@ -1,3 +1,7 @@
+const MResource = require("./MResource.js")
+
+const { webComplier, mfsRead } = require("./web-complier.js")
+
 const JsonResource = require("./Resource.json.js")
 
 const JsResource = require("./Resource.js.js")
@@ -11,11 +15,13 @@ const Page = require("./Page")
 const Resource = require("./Resource")
 const path = require("path")
 
+
 module.exports = class Complier {
     constructor(palettes) {
         this.files = new Map()
         this.pages = new Map()
         this.components = new Map()
+        this.modules = new Set()
         this.palettes = palettes
         this.root = process.cwd()
         this.dist = path.resolve(this.root, "dist")
@@ -41,6 +47,10 @@ module.exports = class Complier {
         })
         page.js.requires.forEach(file => {
             this.addResource(file)
+        })
+        page.js.modules.forEach(file => {
+            if (this.files.has(file.path)) return
+            this.modules.add(file)
         })
         this.addResource(page.json.path, page.json)
         page.json.components.forEach(component => {
@@ -75,6 +85,10 @@ module.exports = class Complier {
         component.js.requires.forEach(file => {
             this.addResource(file)
         })
+        component.js.modules.forEach(file => {
+            if (this.files.has(file.path)) return
+            this.modules.add(file)
+        })
 
         this.addResource(component.json.path, component.json)
         component.json.components.forEach(component => {
@@ -106,6 +120,10 @@ module.exports = class Complier {
                 Res.requires.forEach(file => {
                     this.addResource(file)
                 })
+                Res.modules.forEach(module => {
+                    if (this.files.has(module.path)) return
+                    this.modules.add(module)
+                })
             } else if (Res instanceof JsonResource) {
                 Res.components.forEach(component => {
                     this.addComponent(component)
@@ -116,11 +134,27 @@ module.exports = class Complier {
         }
         this.files.set(filePath, Res)
     }
+    async complierModules() {
+        const modules = [...this.modules]
+        for (let index = 0; index < modules.length; index++) {
+            const module = modules[index]
+            const output = path.resolve(this.root, "dist/miniprogram_npm", module.name)
+            await webComplier(module.path, output)
+            const content = mfsRead(path.resolve(output, "index.js"))
+            const contentMap = mfsRead(path.resolve(output, "index.js.map"))
+            const res = new MResource(module.path, path.resolve(output, "index.js"), content)
+            const resMap = new MResource(module.path + ".map", path.resolve(output, "index.js.map"), contentMap)
+            this.files.set(module.path, res)
+            this.files.set(module.path + ".map", resMap)
+        }
+    }
     updateResource(appJsonPath, config) {
         this.files.set(appJsonPath, new JsonResource(appJsonPath, config))
     }
-    output() {
+
+    async output() {
         let result = true
+        await this.complierModules()
         this.files.forEach(file => { result = file.write() && result })
         if (!result) {
             console.log("⚠️ 构建有缺陷")

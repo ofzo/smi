@@ -19,7 +19,7 @@ module.exports = class Resource {
     constructor(filePath) {
         this.path = filePath
         if (!fs.existsSync(filePath)) {
-            console.log("[文件未找到]", filePath)
+            console.log("[文件缺失]", filePath)
             this.notFound = true
             return
         }
@@ -35,23 +35,36 @@ module.exports = class Resource {
         this.source = fs.readFileSync(this.path)
         this.requires = new Set()
         this.content = this.source
+        this.modules = new Set()
     }
-    resolve(file) {
+    /**
+     *
+     * @param {String} file
+     * @param {Set<String>} set
+     */
+    resolve(file, set) {
         const result = requireResolve(file, path.resolve(this.path, ".."))
         if (typeof result === "string") {
+            set.add(result)
             return result
         } else {
-            result.requires.forEach(item => {
-                this.requires.add(item)
-            })
-            return result.path
+            if (result.files) {
+                result.files.forEach(file => {
+                    this.modules.add(file)
+                })
+            }
+            return ""
         }
     }
     write() {
         if (this.notFound) return false
-        this.outputPath = this.outputPath.replace("node_modules", "miniprogram_npm")
         mkdirP(this.outputPath)
-        fs.writeFileSync(this.outputPath, this.content)
+        fs.writeFile(this.outputPath, this.content, (error) => {
+            if (error) {
+                console.error("[文件写入错误]", this.outputPath)
+                console.error(error)
+            }
+        })
         return true
     }
 }

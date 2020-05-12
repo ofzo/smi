@@ -29,18 +29,18 @@ module.exports = class WXMLResource extends Resource {
                                             StringLiteral(path) {
                                                 if (attr === "src")
                                                     if (!/^https?:\/\//.test(path.node.value)) {
-                                                        self.requires.add(self.resolve(path.node.value))
+                                                        self.resolve(path.node.value, self.requires)
                                                     }
                                                 if (attr === "url")
                                                     if (!/^https?:\/\//.test(path.node.value)) {
-                                                        self.pages.add(self.resolve(path.node.value))
+                                                        self.resolve(path.node.value, self.pages)
                                                     }
                                             },
                                             CallExpression(path) {
                                                 // @ts-ignore
                                                 if (path.node.callee.name === "page") {
                                                     // @ts-ignore
-                                                    self.pages.add(self.resolve(path.node.arguments[0].value))
+                                                    self.resolve(path.node.arguments[0].value, self.pages)
                                                     // @ts-ignore
                                                     path.replaceWith(types.valueToNode(path.node.arguments[0].value))
                                                     return
@@ -51,7 +51,7 @@ module.exports = class WXMLResource extends Resource {
                                                     const file = path.node.arguments[0].value
                                                     // @ts-ignore
                                                     path.replaceWith(types.valueToNode(file))
-                                                    self.requires.add(self.resolve(file))
+                                                    self.resolve(file, self.requires)
                                                     return
                                                 }
                                             }
@@ -64,11 +64,11 @@ module.exports = class WXMLResource extends Resource {
                             if (!note) {
                                 if (attr === "src")
                                     if (!/^https?:\/\//.test(node.attributes[attr]))
-                                        this.requires.add(this.resolve(node.attributes[attr]))
+                                        this.resolve(node.attributes[attr], this.requires)
 
                                 if (attr === "url")
                                     if (!/^https?:\/\//.test(node.attributes[attr]))
-                                        this.pages.add(this.resolve(node.attributes[attr]))
+                                        this.resolve(node.attributes[attr], this.pages)
                             }
                         }
                     })

@@ -21,7 +21,9 @@
         "colors": "^1.4.0",
         "eslint": "^6.5.1",
         "eslint-config-prettier": "^6.4.0",
+        "memory-fs": "^0.5.0",
         "node-sass": "^4.14.1",
+        "webpack": "^4.43.0",
         "yaml": "^1.7.2"
     }
 }

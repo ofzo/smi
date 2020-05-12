@@ -27,8 +27,7 @@ module.exports = class StyleResource extends Resource {
                     data,
                     outFile,
                     importer: (importer) => {
-                        const file = this.resolve(importer)
-                        this.requires.add(this.resolve(file))
+                        const file = this.resolve(importer, this.requires)
                         return { file }
                     }
                 }).css

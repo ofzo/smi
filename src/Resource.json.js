@@ -14,7 +14,7 @@ module.exports = class JsonResource extends Resource {
         const config = this.config || require(this.path);
         (config.usingComponents ? Object.entries(config.usingComponents) : []).forEach(([key, ipt]) => {
             config.usingComponents[key] = ipt.replace("@", "/")
-            this.components.add(this.resolve(ipt))
+            this.resolve(ipt, this.components)
         })
         this.content = JSON.stringify(config, null, 4)
     }

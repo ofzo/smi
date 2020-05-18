@@ -1,10 +1,9 @@
 const webpack = require("webpack")
 const MemoryFileSystem = require("memory-fs")
 const mfs = new MemoryFileSystem()
-
+const path = require("path")
 function webComplier(module, output) {
     return new Promise((resolve, reject) => {
-
         const webComplier = webpack({
             mode: "development",
             entry: module,
@@ -20,7 +19,7 @@ function webComplier(module, output) {
             module: {
                 rules: [{
                     test: /\.js$/,
-                    loader: "babel-loader"
+                    loader: path.resolve(__dirname, "..", "node_modules", "babel-loader")
                 }]
             }
         })

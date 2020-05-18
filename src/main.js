@@ -1,3 +1,5 @@
+const requireResolve = require("./requireResolve")
+
 const cleanup = require("./cleanup")
 
 const path = require("path")
@@ -13,9 +15,9 @@ fs.readFileSync(path.resolve(root, "beta.env")).toString().trim().split("\n").fo
         return
     }
     const index = item.indexOf("=")
-    const key = item.slice(0, index).toUpperCase()
+    const key = item.slice(0, index)
     let value = item.slice(index + 1).trim()
-    if (key === "VERSION") {
+    if (key.toUpperCase() === "VERSION") {
         const date = new Date()
         const year = date.getFullYear().toString().slice(2)
         const month = date.getMonth() + 1
@@ -24,7 +26,8 @@ fs.readFileSync(path.resolve(root, "beta.env")).toString().trim().split("\n").fo
     }
     process.env[key] = value
 })
-
+// @ts-ignore
+process.env.__PROD__ = false
 const appJsonPath = path.resolve(root, "app.json")
 const appJsPath = path.resolve(root, "app.js")
 const appStylePath = path.resolve(root, "app.scss")
@@ -48,23 +51,30 @@ if (appJson.palettes) {
 const complier = new Complier(palettes)
 
 
+debugger
+
 if (appJson.pages)
     appJson.pages.forEach(page => {
-        const pagePath = path.resolve(root, page)
+        const pagePath = requireResolve(page, root)
+        // @ts-ignore
         complier.addPage(pagePath)
     })
 
 if (appJson.tabBar)
     appJson.tabBar.list.forEach(tab => {
+        tab.iconPath = tab.iconPath.slice(1)
         complier.addResource(path.resolve(root, tab.iconPath))
+        tab.selectedIconPath = tab.selectedIconPath.slice(1)
         complier.addResource(path.resolve(root, tab.selectedIconPath))
-        complier.addPage(tab)
+        // @ts-ignore
+        complier.addPage(requireResolve(tab.pagePath, root))
+        tab.pagePath = tab.pagePath.slice(1)
     })
 
 
 if (appJson.files)
     appJson.files.forEach(file => {
-        complier.addPage(file)
+        complier.addResource(file)
     })
 appJson.pages = []
 delete appJson.files

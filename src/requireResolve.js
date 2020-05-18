@@ -36,7 +36,7 @@ module.exports = function requireResolve(ref, origin = process.cwd()) {
                     packageRoot = path.resolve(packageRoot, "..")
                 }
                 if (packageRoot === "/") {
-                    // console.log("[模块缺失]", refs[0])
+                    console.log("[模块缺失]", ref, origin)
                     process.exit(1)
                 }
                 const packageJson = require(path.resolve(module, "package.json"))

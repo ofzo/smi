@@ -22,43 +22,48 @@ module.exports = class WXMLResource extends Resource {
                         if (typeof node.attributes[attr] === "string") {
                             let note = false
                             node.attributes[attr] = node.attributes[attr].replace(/{{(.+?)}}/g, (_, snp) => {
-                                note = true
-                                const r = babel.transformSync(snp, {
-                                    plugins: [evnReplace, {
-                                        visitor: {
-                                            StringLiteral(path) {
-                                                if (attr === "src")
-                                                    if (!/^https?:\/\//.test(path.node.value)) {
-                                                        self.resolve(path.node.value, self.requires)
+                                try {
+                                    note = true
+                                    const r = babel.transformSync(snp, {
+                                        plugins: [evnReplace, {
+                                            visitor: {
+                                                StringLiteral(path) {
+                                                    if (attr === "src")
+                                                        if (!/^https?:\/\//.test(path.node.value)) {
+                                                            self.resolve(path.node.value, self.requires)
+                                                        }
+                                                    if (attr === "url")
+                                                        if (!/^https?:\/\//.test(path.node.value)) {
+                                                            self.resolve(path.node.value, self.pages)
+                                                        }
+                                                },
+                                                CallExpression(path) {
+                                                    // @ts-ignore
+                                                    if (path.node.callee.name === "page") {
+                                                        // @ts-ignore
+                                                        self.resolve(path.node.arguments[0].value, self.pages)
+                                                        // @ts-ignore
+                                                        path.replaceWith(types.valueToNode(path.node.arguments[0].value))
+                                                        return
                                                     }
-                                                if (attr === "url")
-                                                    if (!/^https?:\/\//.test(path.node.value)) {
-                                                        self.resolve(path.node.value, self.pages)
+                                                    // @ts-ignore
+                                                    if (path.node.callee.name === "file") {
+                                                        // @ts-ignore
+                                                        const file = path.node.arguments[0].value
+                                                        // @ts-ignore
+                                                        path.replaceWith(types.valueToNode(file))
+                                                        self.resolve(file, self.requires)
+                                                        return
                                                     }
-                                            },
-                                            CallExpression(path) {
-                                                // @ts-ignore
-                                                if (path.node.callee.name === "page") {
-                                                    // @ts-ignore
-                                                    self.resolve(path.node.arguments[0].value, self.pages)
-                                                    // @ts-ignore
-                                                    path.replaceWith(types.valueToNode(path.node.arguments[0].value))
-                                                    return
-                                                }
-                                                // @ts-ignore
-                                                if (path.node.callee.name === "file") {
-                                                    // @ts-ignore
-                                                    const file = path.node.arguments[0].value
-                                                    // @ts-ignore
-                                                    path.replaceWith(types.valueToNode(file))
-                                                    self.resolve(file, self.requires)
-                                                    return
                                                 }
                                             }
-                                        }
-                                    }]
-                                })
-                                return "{{" + r.code + "}}"
+                                        }]
+                                    })
+                                    return "{{" + r.code + "}}"
+                                } catch (error) {
+                                    console.error("[语法警告]", snp)
+                                    return "{{" + snp + "}}"
+                                }
                             }).replace(/"/g, "'").replace(/;}}/g, "}}")
 
                             if (!note) {

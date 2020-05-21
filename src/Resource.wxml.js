@@ -43,7 +43,7 @@ module.exports = class WXMLResource extends Resource {
                                                         // @ts-ignore
                                                         self.resolve(path.node.arguments[0].value, self.pages)
                                                         // @ts-ignore
-                                                        path.replaceWith(types.valueToNode(path.node.arguments[0].value))
+                                                        path.replaceWith(types.valueToNode(path.node.arguments[0].value.replace(/^@/, "/")))
                                                         return
                                                     }
                                                     // @ts-ignore
@@ -51,7 +51,7 @@ module.exports = class WXMLResource extends Resource {
                                                         // @ts-ignore
                                                         const file = path.node.arguments[0].value
                                                         // @ts-ignore
-                                                        path.replaceWith(types.valueToNode(file))
+                                                        path.replaceWith(types.valueToNode(file.replace(/^@/, "/")))
                                                         self.resolve(file, self.requires)
                                                         return
                                                     }
@@ -68,12 +68,16 @@ module.exports = class WXMLResource extends Resource {
 
                             if (!note) {
                                 if (attr === "src")
-                                    if (!/^https?:\/\//.test(node.attributes[attr]))
+                                    if (!/^https?:\/\//.test(node.attributes[attr])) {
                                         this.resolve(node.attributes[attr], this.requires)
+                                        node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
+                                    }
 
                                 if (attr === "url")
-                                    if (!/^https?:\/\//.test(node.attributes[attr]))
+                                    if (!/^https?:\/\//.test(node.attributes[attr])) {
                                         this.resolve(node.attributes[attr], this.pages)
+                                        node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
+                                    }
                             }
                         }
                     })

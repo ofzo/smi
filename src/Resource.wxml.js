@@ -80,7 +80,7 @@ module.exports = class WXMLResource extends Resource {
                                     }
                             }
                         }
-                        if (attr === "class")
+                        if (attr === "class" && process.env.APP_NAME)
                             node.attributes[attr] = process.env.APP_NAME + " " + node.attributes[attr]
                     })
                     if (node.tagName === "style") node.childNodes = []

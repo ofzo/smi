@@ -5,7 +5,7 @@ const fs = require("fs")
 module.exports = class StyleResource extends Resource {
     constructor(filePath, palettes) {
         if (!fs.existsSync(filePath))
-            filePath = filePath.replace(/\.wxss$/, "scss")
+            filePath = filePath.replace(/\.wxss$/, ".scss")
         super(filePath)
         this.palettes = palettes
         if (this.notFound) return
@@ -35,6 +35,12 @@ module.exports = class StyleResource extends Resource {
                 console.log("[编译文件失败]:", this.path)
                 console.log(error)
             }
+        } else if (this.type === "wxss") {
+            const content = this.source.toString()
+            const imports = new Set(content.matchAll(/@import "(.+)";/g))
+            imports.forEach(([_, snp]) => {
+                this.resolve(snp, this.requires)
+            })
         } else
             this.content = this.source
     }

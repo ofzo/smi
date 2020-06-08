@@ -19,7 +19,11 @@ module.exports = class CombineResource {
         this.palettes = palettes
         this.wxml = new WXMLResource(filePath + ".wxml")
         this.json = new JsonResource(filePath + ".json")
-        this.js = new JsResource(filePath + ".js")
+        if (/\.js$/.test(filePath)) {
+            this.js = new JsResource(filePath)
+        } else {
+            this.js = new JsResource(filePath + ".js")
+        }
         if (fs.existsSync(filePath + ".wxss"))
             this.style = new StyleResource(filePath + ".wxss", palettes)
         else

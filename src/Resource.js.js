@@ -18,6 +18,8 @@ module.exports = class JsResource extends Resource {
                     visitor: {
                         ImportDeclaration(path) {
                             const value = path.node.source.value
+                            path.node.source.value = value.replace(/^@/, "/")
+
                             self.resolve(value, self.requires)
                         },
                         CallExpression(path) {
@@ -25,6 +27,8 @@ module.exports = class JsResource extends Resource {
                             if (path.node.callee.name === "require") {
                                 // @ts-ignore
                                 const module = path.node.arguments[0].value
+                                // @ts-ignore
+                                path.node.arguments[0].value = module.replace(/^@/, "/")
                                 // @ts-ignore
                                 self.resolve(module, self.requires)
                                 return

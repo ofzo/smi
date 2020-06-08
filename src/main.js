@@ -10,7 +10,7 @@ const dist = path.resolve(root, "dist")
 
 cleanup(dist)
 
-fs.readFileSync(path.resolve(root, "beta.env")).toString().trim().split("\n").forEach(item => {
+fs.readFileSync(path.resolve(root, process.argv[2] || "beta.env")).toString().trim().split("\n").forEach(item => {
     if (!item.trim() || /^\/\//.test(item) || /^#/.test(item)) {
         return
     }

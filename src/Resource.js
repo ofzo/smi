@@ -58,6 +58,7 @@ module.exports = class Resource {
     }
     write() {
         if (this.notFound) return false
+        this.outputPath = this.outputPath.replace("node_modules/", "")
         mkdirP(this.outputPath)
         fs.writeFile(this.outputPath, this.content, (error) => {
             if (error) {

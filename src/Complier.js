@@ -58,6 +58,9 @@ module.exports = class Complier {
         })
 
         this.addResource(page.style.path, page.style)
+        page.style.requires.forEach(style => {
+            this.addResource(style)
+        })
     }
     /**
      *
@@ -95,6 +98,9 @@ module.exports = class Complier {
             this.addComponent(component)
         })
         this.addResource(component.style.path, component.style)
+        component.style.requires.forEach(style => {
+            this.addResource(style)
+        })
     }
     /**
      *
@@ -102,7 +108,8 @@ module.exports = class Complier {
      * @param {Resource=} Res 文件对象
      */
     addResource(filePath, Res) {
-        if (this.files.has(filePath)) return
+        if (this.files.has(filePath))
+            return
         if (!Res) {
             Res = createResource(filePath, this.palettes)
             if (Res instanceof WXMLResource) {

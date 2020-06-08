@@ -9,8 +9,11 @@ const root = process.cwd()
 const dist = path.resolve(root, "dist")
 
 cleanup(dist)
-
-fs.readFileSync(path.resolve(root, process.argv[2] || "beta.env")).toString().trim().split("\n").forEach(item => {
+let env = ""
+if (fs.existsSync(path.resolve(root, ".env"))) {
+    env = fs.readFileSync(path.resolve(root, ".env")).toString() + "\n"
+}
+(env + fs.readFileSync(path.resolve(root, process.argv[2] || "beta.env")).toString()).trim().split("\n").forEach(item => {
     if (!item.trim() || /^\/\//.test(item) || /^#/.test(item)) {
         return
     }

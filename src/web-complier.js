@@ -27,7 +27,9 @@ function webComplier(module, output) {
         webComplier.run((err, stats) => {
             if (err) {
                 console.error(err.stack || err)
+                // @ts-ignore
                 if (err.details) {
+                    // @ts-ignore
                     console.error(err.details)
                 }
                 reject(err)

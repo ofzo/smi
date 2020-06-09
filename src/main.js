@@ -73,8 +73,18 @@ if (appJson.tabBar)
         complier.addPage(requireResolve(tab.pagePath, root))
         tab.pagePath = tab.pagePath.slice(1)
     })
-
-
+if (appJson.subPackages)
+    appJson.subPackages.forEach(pack => {
+        const packageRoot = requireResolve(pack.root)
+        if (pack.root.startsWith("@") || pack.root.startsWith("/")) {
+            pack.root = pack.root.slice(1)
+        }
+        pack.pages = pack.pages.map(page => {
+            // @ts-ignore
+            complier.addPage(path.resolve(packageRoot, page))
+            return page
+        })
+    })
 if (appJson.files)
     appJson.files.forEach(file => {
         complier.addResource(file)
@@ -88,7 +98,13 @@ complier.addResource(appStylePath)
 complier.addResource(siteMapPath)
 
 complier.pages.forEach((page) => {
-    appJson.pages.push(page.pagePath)
+    if (appJson.subPackages) {
+        if (page.pagePath.startsWith("pages/")) {
+            appJson.pages.push(page.pagePath)
+        }
+    } else {
+        appJson.pages.push(page.pagePath)
+    }
 })
 complier.updateResource(appJsonPath, appJson)
 

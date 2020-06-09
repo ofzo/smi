@@ -1,5 +1,5 @@
 {
-    "name": "wx-smi",
+    "name": "@roadup/smi",
     "version": "0.0.2",
     "license": "MIT",
     "bin": {

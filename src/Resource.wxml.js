@@ -15,6 +15,7 @@ module.exports = class WXMLResource extends Resource {
         const ast = wxml.parse(this.source.toString())
         const self = this
         try {
+            // @ts-ignore
             wxml.traverse(ast, (node) => {
                 if (node.type === 1) { // element node
                     Object.keys(node.attributes).forEach(attr => {
@@ -77,14 +78,22 @@ module.exports = class WXMLResource extends Resource {
                             if (!note) {
                                 if (attr === "src")
                                     if (!/^https?:\/\//.test(node.attributes[attr])) {
-                                        this.resolve(node.attributes[attr], this.requires)
-                                        node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
+                                        if (node.attributes[attr]) {
+                                            this.resolve(node.attributes[attr], this.requires)
+                                            node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
+                                        } else {
+                                            console.log("[引用错误] in ", self.path, "src=\"" + node.attributes[attr] + "\"")
+                                        }
                                     }
 
                                 if (attr === "url")
                                     if (!/^https?:\/\//.test(node.attributes[attr])) {
-                                        this.resolve(node.attributes[attr], this.pages)
-                                        node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
+                                        if (node.attributes[attr]) {
+                                            this.resolve(node.attributes[attr], this.pages)
+                                            node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
+                                        } else {
+                                            console.log("[引用错误] in ", self.path, "url=\"" + node.attributes[attr] + "\"")
+                                        }
                                     }
                             }
                         }
@@ -103,6 +112,7 @@ module.exports = class WXMLResource extends Resource {
                 }
             })
 
+            // @ts-ignore
             this.content = wxml.serialize(ast)
         } catch (error) {
             console.log("编译失败", this.path)

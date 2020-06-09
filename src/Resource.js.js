@@ -27,25 +27,32 @@ module.exports = class JsResource extends Resource {
                                 const module = path.node.arguments[0].value
                                 // @ts-ignore
                                 self.resolve(module, self.requires)
-
                                 return
                             }
                             // @ts-ignore
                             if (path.node.callee.name === "page") {
                                 // @ts-ignore
                                 const page = path.node.arguments[0].value
-                                // @ts-ignore
-                                path.replaceWith(types.valueToNode(page.replace(/^@/, "/")))
-                                self.resolve(page, self.pages)
+                                if (page) {
+                                    // @ts-ignore
+                                    path.replaceWith(types.valueToNode(page.replace(/^@/, "/")))
+                                    self.resolve(page, self.pages)
+                                } else {
+                                    console.log("[引用错误] in ", self.path, "page()")
+                                }
                                 return
                             }
                             // @ts-ignore
                             if (path.node.callee.name === "file") {
                                 // @ts-ignore
                                 const file = path.node.arguments[0].value
-                                // @ts-ignore
-                                path.replaceWith(types.valueToNode(file.replace(/^@/, "/")))
-                                self.resolve(file, self.requires)
+                                if (file) {
+                                    // @ts-ignore
+                                    path.replaceWith(types.valueToNode(file.replace(/^@/, "/")))
+                                    self.resolve(file, self.requires)
+                                } else {
+                                    console.log("[引用错误] in ", self.path, "file()")
+                                }
                                 return
                             }
                         }

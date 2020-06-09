@@ -18,7 +18,7 @@ module.exports = class JsResource extends Resource {
                     visitor: {
                         ImportDeclaration(path) {
                             const value = path.node.source.value
-                            path.node.source.value = self.resolve(value, self.requires)
+                            self.resolve(value, self.requires)
                         },
                         CallExpression(path) {
                             // @ts-ignore
@@ -26,7 +26,7 @@ module.exports = class JsResource extends Resource {
                                 // @ts-ignore
                                 const module = path.node.arguments[0].value
                                 // @ts-ignore
-                                path.node.arguments[0].value = self.resolve(module, self.requires)
+                                self.resolve(module, self.requires)
 
                                 return
                             }

@@ -5,6 +5,9 @@
     "bin": {
         "smi": "main.js"
     },
+    "scripts": {
+        "postinstall": "npm i"
+    },
     "dependencies": {
         "@babel/core": "^7.6.4",
         "@babel/plugin-proposal-export-default-from": "^7.5.2",

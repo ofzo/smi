@@ -30,11 +30,19 @@ module.exports = class WXMLResource extends Resource {
                                                 StringLiteral(path) {
                                                     if (attr === "src")
                                                         if (!/^https?:\/\//.test(path.node.value)) {
-                                                            self.resolve(path.node.value, self.requires)
+                                                            if (path.node.value) {
+                                                                self.resolve(path.node.value, self.requires)
+                                                            } else {
+                                                                console.log("[引用错误] in ", self.path, "src=\"" + path.node.value + "\"")
+                                                            }
                                                         }
                                                     if (attr === "url")
                                                         if (!/^https?:\/\//.test(path.node.value)) {
-                                                            self.resolve(path.node.value, self.pages)
+                                                            if (path.node.value) {
+                                                                self.resolve(path.node.value, self.pages)
+                                                            } else {
+                                                                console.log("[引用错误] in ", self.path, "url=\"" + path.node.value + "\"")
+                                                            }
                                                         }
                                                 },
                                                 CallExpression(path) {
@@ -64,7 +72,7 @@ module.exports = class WXMLResource extends Resource {
                                     console.error("[语法警告]", snp)
                                     return "{{" + snp + "}}"
                                 }
-                            }).replace(/"/g, "'").replace(/;}}/g, "}}")
+                            }).replace(/ "/g, "'").replace(/;}}/g, "}}")
 
                             if (!note) {
                                 if (attr === "src")

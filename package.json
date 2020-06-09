@@ -1,5 +1,5 @@
 {
-    "name": "@uploy/smi",
+    "name": "wx-smi",
     "version": "0.0.1",
     "license": "MIT",
     "bin": {

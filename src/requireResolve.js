@@ -12,13 +12,15 @@ module.exports = function requireResolve(ref, origin = process.cwd()) {
             case "/":
                 return path.resolve(process.cwd(), "./" + ref)
             case "@":
-                return path.resolve(process.cwd(), "node_modules", ref.slice(1))
+                if (!fs.existsSync(path.resolve(process.cwd(), "node_modules", ref))) {
+                    return path.resolve(process.cwd(), "node_modules", ref.slice(1))
+                }
             default:
                 const p = path.resolve(origin, ref)
                 if (fs.existsSync(p)) {
                     return p
                 }
-                const refs = ref.split("/")
+                // const refs = ref.split("/")
 
                 let packageRoot = origin
                 let module = ""
@@ -48,7 +50,7 @@ module.exports = function requireResolve(ref, origin = process.cwd()) {
                         return {
                             files: [{
                                 path: file,
-                                name: refs[0]
+                                name: ref
                             }]
                         }
                     } else {

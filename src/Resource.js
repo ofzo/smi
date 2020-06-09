@@ -53,7 +53,7 @@ module.exports = class Resource {
                     this.modules.add(file)
                 })
             }
-            return ""
+            return result.files[0].name
         }
     }
     write() {

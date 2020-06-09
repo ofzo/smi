@@ -224,11 +224,6 @@
   resolved "http://npm.17zuoye.net/@types%2fcolor-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha1-HBJhu+qhCoBVu8XYq4S3sq/IRqA=
 
-"@vivaxy/wxml@^2.0.1":
-  version "2.0.1"
-  resolved "http://npm.17zuoye.net/@vivaxy%2fwxml/-/wxml-2.0.1.tgz#2a78a3781c4a82f407be392df9dc3c036113764e"
-  integrity sha1-KnijeBxKgvQHvjkt+dw8A2ETdk4=
-
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "http://npm.17zuoye.net/@webassemblyjs%2fast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -4564,6 +4559,11 @@ write@1.0.3:
   integrity sha1-CADhRSO5I6OH5BUSPIZWFqrg9cM=
   dependencies:
     mkdirp "^0.5.1"
+
+wxml@^2.0.1:
+  version "2.0.1"
+  resolved "http://npm.17zuoye.net/wxml/-/wxml-2.0.1.tgz#2e62b75b9f01c561e0805b2681fe39b370c482c6"
+  integrity sha512-v5w0o4sGvwLoKu3AgyY6S/naLHtnkrfoUVGbgQDh1rsSsVJW/Xl/sqT6UnWK97IbihWlE70tv5RW815myL+x0A==
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"

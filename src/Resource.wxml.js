@@ -1,4 +1,4 @@
-const wxml = require("@vivaxy/wxml")
+const wxml = require("wxml")
 const babel = require("@babel/core")
 const types = require("@babel/types")
 const evnReplace = require("./envReplacePlugin")

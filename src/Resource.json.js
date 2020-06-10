@@ -1,9 +1,16 @@
 const Resource = require("./Resource")
+const fs = require("fs")
+const path = require("path")
 
 module.exports = class JsonResource extends Resource {
 
     constructor(filePath, config) {
-        super(filePath)
+        if (fs.existsSync(filePath + ".js")) {
+            super(filePath + ".js")
+            this.outputPath = filePath.replace(process.cwd(), path.resolve(process.cwd(), "dist"))
+        } else {
+            super(filePath)
+        }
         this.components = new Set()
         this.config = config
         !this.notFound && this.complier()

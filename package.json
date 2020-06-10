@@ -5,9 +5,7 @@
     "bin": {
         "smi": "main.js"
     },
-    "scripts": {
-        "postinstall": "npm i"
-    },
+    "scripts": {},
     "repository": "git@github:uploy/smi",
     "author": "roadup <roadup.inbox@gmail.com>",
     "dependencies": {

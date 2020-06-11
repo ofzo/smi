@@ -99,7 +99,7 @@ complier.addResource(siteMapPath)
 
 complier.pages.forEach((page) => {
     if (appJson.subPackages) {
-        if (!appJson.subPackages.some(sub => sub.pages.includes(page.pagePath.replace(sub.root + "/", ""))))
+        if (!appJson.subPackages.some(sub => page.pagePath.startsWith(sub.root)))
             appJson.pages.push(page.pagePath)
     } else {
         appJson.pages.push(page.pagePath)

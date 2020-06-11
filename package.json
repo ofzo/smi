@@ -1,6 +1,6 @@
 {
     "name": "@roadup/smi",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "license": "MIT",
     "bin": {
         "smi": "main.js"
@@ -8,6 +8,13 @@
     "scripts": {},
     "repository": "git@github:uploy/smi",
     "author": "roadup <roadup.inbox@gmail.com>",
+    "keywords": [
+        "wechat",
+        "小程序",
+        "微信",
+        "构建",
+        "subpackages"
+    ],
     "dependencies": {
         "@babel/core": "^7.6.4",
         "@babel/plugin-proposal-export-default-from": "^7.5.2",

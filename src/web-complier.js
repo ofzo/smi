@@ -2,6 +2,7 @@ const webpack = require("webpack")
 const MemoryFileSystem = require("memory-fs")
 const mfs = new MemoryFileSystem()
 const path = require("path")
+const fs = require("fs")
 function webComplier(module, output) {
     return new Promise((resolve, reject) => {
         const webComplier = webpack({
@@ -19,7 +20,8 @@ function webComplier(module, output) {
             module: {
                 rules: [{
                     test: /\.js$/,
-                    loader: path.resolve(__dirname, "..", "node_modules", "babel-loader")
+                    loader: fs.existsSync(path.resolve(__dirname, "..", "node_modules", "babel-loader")) ?
+                        path.resolve(__dirname, "..", "node_modules", "babel-loader") : "babel-loader"
                 }]
             }
         })

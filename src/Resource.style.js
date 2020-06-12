@@ -32,7 +32,7 @@ module.exports = class StyleResource extends Resource {
                     }
                 }).css
             } catch (error) {
-                console.log("[编译文件失败]:", this.path)
+                console.log("[编译文件失败]:".red, this.path)
                 console.log(error)
             }
         } else if (this.type === "wxss") {

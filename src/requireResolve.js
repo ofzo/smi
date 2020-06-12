@@ -38,7 +38,7 @@ module.exports = function requireResolve(ref, origin = process.cwd()) {
                     packageRoot = path.resolve(packageRoot, "..")
                 }
                 if (packageRoot === "/") {
-                    console.log("[模块缺失]", ref, origin)
+                    console.log("[模块缺失]".red, ref, origin)
                     process.exit(1)
                 }
                 const packageJson = require(path.resolve(module, "package.json"))
@@ -54,12 +54,12 @@ module.exports = function requireResolve(ref, origin = process.cwd()) {
                             }]
                         }
                     } else {
-                        console.error("[模块缺失]", file)
+                        console.error("[模块缺失]".red, file)
                     }
                 } else if (fs.statSync(module).isFile()) {
                     return module
                 } else {
-                    console.log("[文件错误]", ref)
+                    console.log("[文件错误]".red, ref)
                 }
 
         }

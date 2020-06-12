@@ -32,13 +32,14 @@ module.exports = class JsResource extends Resource {
                             // @ts-ignore
                             if (path.node.callee.name === "page") {
                                 // @ts-ignore
-                                const page = path.node.arguments[0].value
-                                if (page) {
+                                const page = path.node.arguments[0]?.value
+                                if (typeof page === "string") {
                                     // @ts-ignore
                                     path.replaceWith(types.valueToNode(page.replace(/^@/, "/")))
                                     self.resolve(page, self.pages)
                                 } else {
-                                    console.log("[引用错误] in ", self.path, "page()")
+                                    console.error("[无效引用] ".red, self.path.replace(process.cwd(), ".") + ":" + path.node.loc.start.line, path.toString())
+                                    path.replaceWith(path.node.arguments[0])
                                 }
                                 return
                             }
@@ -46,12 +47,13 @@ module.exports = class JsResource extends Resource {
                             if (path.node.callee.name === "file") {
                                 // @ts-ignore
                                 const file = path.node.arguments[0].value
-                                if (file) {
+                                if (typeof file === "string") {
                                     // @ts-ignore
                                     path.replaceWith(types.valueToNode(file.replace(/^@/, "/")))
                                     self.resolve(file, self.requires)
                                 } else {
-                                    console.log("[引用错误] in ", self.path, "file()")
+                                    console.error("[无效引用] ".red, self.path.replace(process.cwd(), ".") + ":" + path.node.loc.start.line, path.toString())
+                                    path.replaceWith(path.node.arguments[0])
                                 }
                                 return
                             }
@@ -61,7 +63,7 @@ module.exports = class JsResource extends Resource {
                 ]
             }).code
         } catch (error) {
-            console.log("[编译失败]", this.path)
+            console.log("[编译失败]".red, this.path)
             console.log(error)
             process.exit(0)
         }

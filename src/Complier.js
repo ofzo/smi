@@ -164,9 +164,9 @@ module.exports = class Complier {
         await this.complierModules()
         this.files.forEach(file => { result = file.write() && result })
         if (!result) {
-            console.log("⚠️ 构建有缺陷")
+            console.log("⚠️ 构建有缺陷".yellow)
         } else {
-            console.log("🏄‍♂️ 构建成功")
+            console.log("🏄‍♂️ 构建成功".green)
         }
     }
 }

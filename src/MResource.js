@@ -21,7 +21,7 @@ module.exports = class MResource {
         mkdirP(this.outputPath)
         fs.writeFile(this.outputPath, this.content, (error) => {
             if (error) {
-                console.error("[文件写入错误]", this.outputPath)
+                console.error("[文件写入错误]".red, this.outputPath)
                 console.error(error)
             }
         })

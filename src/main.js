@@ -10,10 +10,13 @@ const dist = path.resolve(root, "dist")
 
 cleanup(dist)
 let env = ""
-if (fs.existsSync(path.resolve(root, ".env"))) {
+if (fs.existsSync(path.resolve(root, ".env")))
     env = fs.readFileSync(path.resolve(root, ".env")).toString() + "\n"
-}
-(env + fs.readFileSync(path.resolve(root, process.argv[2] || "beta.env")).toString()).trim().split("\n").forEach(item => {
+
+if (fs.existsSync(path.resolve(root, process.argv[2] || "beta.env")))
+    env += fs.readFileSync(path.resolve(root, process.argv[2] || "beta.env")).toString()
+
+env.trim().split("\n").forEach(item => {
     if (!item.trim() || /^\/\//.test(item) || /^#/.test(item)) {
         return
     }
@@ -30,7 +33,7 @@ if (fs.existsSync(path.resolve(root, ".env"))) {
     process.env[key] = value
 })
 // @ts-ignore
-process.env.__PROD__ = false
+process.env.__PROD__ = process.env.__PROD__ || false
 const appJsonPath = path.resolve(root, "app.json")
 const appJsPath = path.resolve(root, "app.js")
 const appStylePath = path.resolve(root, "app.scss")

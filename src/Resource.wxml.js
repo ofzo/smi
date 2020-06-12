@@ -34,7 +34,7 @@ module.exports = class WXMLResource extends Resource {
                                                             if (path.node.value) {
                                                                 self.resolve(path.node.value, self.requires)
                                                             } else {
-                                                                console.log("[引用错误] in ", self.path, "src=\"" + path.node.value + "\"")
+                                                                console.log("[引用错误]".red, self.path.replace(process.cwd(), "."), "src=\"" + path.node.value + "\"")
                                                             }
                                                         }
                                                     if (attr === "url")
@@ -42,7 +42,7 @@ module.exports = class WXMLResource extends Resource {
                                                             if (path.node.value) {
                                                                 self.resolve(path.node.value, self.pages)
                                                             } else {
-                                                                console.log("[引用错误] in ", self.path, "url=\"" + path.node.value + "\"")
+                                                                console.log("[引用错误]".red, self.path.replace(process.cwd(), "."), "url=\"" + path.node.value + "\"")
                                                             }
                                                         }
                                                 },
@@ -70,7 +70,7 @@ module.exports = class WXMLResource extends Resource {
                                     })
                                     return "{{" + r.code + "}}"
                                 } catch (error) {
-                                    console.error("[语法警告]", snp)
+                                    console.error("[语法警告]", ("<" + node.tagName + " ... " + attr + "=\"" + node.attributes[attr] + (node.selfClosing ? "\"/>" : "\"><" + node.tagName + ">")).blue, this.path.replace(process.cwd(), "."))
                                     return "{{" + snp + "}}"
                                 }
                             }).replace(/ "/g, "'").replace(/;}}/g, "}}")
@@ -82,7 +82,7 @@ module.exports = class WXMLResource extends Resource {
                                             this.resolve(node.attributes[attr], this.requires)
                                             node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
                                         } else {
-                                            console.log("[引用错误] in ", self.path, "src=\"" + node.attributes[attr] + "\"")
+                                            console.log("[引用错误] ".red, self.path, "src=\"" + node.attributes[attr] + "\"")
                                         }
                                     }
 
@@ -92,7 +92,7 @@ module.exports = class WXMLResource extends Resource {
                                             this.resolve(node.attributes[attr], this.pages)
                                             node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
                                         } else {
-                                            console.log("[引用错误] in ", self.path, "url=\"" + node.attributes[attr] + "\"")
+                                            console.log("[引用错误] ".red, self.path, "url=\"" + node.attributes[attr] + "\"")
                                         }
                                     }
                             }
@@ -115,7 +115,7 @@ module.exports = class WXMLResource extends Resource {
             // @ts-ignore
             this.content = wxml.serialize(ast)
         } catch (error) {
-            console.log("编译失败", this.path)
+            console.log("编译失败".red, this.path)
             console.log(error)
             process.exit(0)
         }

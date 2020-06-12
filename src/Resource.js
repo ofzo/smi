@@ -19,7 +19,7 @@ module.exports = class Resource {
     constructor(filePath) {
         this.path = filePath
         if (!fs.existsSync(filePath)) {
-            console.log("[文件缺失]", filePath)
+            console.log("[文件缺失]".red, filePath)
             this.notFound = true
             return
         }
@@ -29,7 +29,8 @@ module.exports = class Resource {
         this.type = filePath.split(".").pop()
         if (this.type !== "wxml" && this.type !== "js" && this.type !== "scss" && this.type !== "wxss" && this.type !== "json") {
             if (this.size > 8 * 1024) {
-                console.log("[文件过大]", this.path.replace(process.cwd(), "") + "(" + Math.ceil(this.size / 1024) + "kb)")
+                console.log("[文件过大]".yellow,
+                    ("(" + Math.ceil(this.size / 1024) + "kb)").yellow + this.path.replace(process.cwd(), "."))
             }
         }
         this.source = fs.readFileSync(this.path)
@@ -62,7 +63,7 @@ module.exports = class Resource {
         mkdirP(this.outputPath)
         fs.writeFile(this.outputPath, this.content, (error) => {
             if (error) {
-                console.error("[文件写入错误]", this.outputPath)
+                console.error("[文件写入错误]".red, this.outputPath)
                 console.error(error)
             }
         })

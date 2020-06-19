@@ -73,7 +73,7 @@ module.exports = class WXMLResource extends Resource {
                                     console.error("[语法警告]", ("<" + node.tagName + " ... " + attr + "=\"" + node.attributes[attr] + (node.selfClosing ? "\"/>" : "\"><" + node.tagName + ">")).blue, this.path.replace(process.cwd(), "."))
                                     return "{{" + snp + "}}"
                                 }
-                            }).replace(/ "/g, "'").replace(/;}}/g, "}}")
+                            }).replace(/"/g, "'").replace(/;}}/g, "}}")
 
                             if (!note) {
                                 if (attr === "src")

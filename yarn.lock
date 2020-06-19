@@ -4560,10 +4560,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-wxml@^2.0.1:
-  version "2.0.1"
-  resolved "http://npm.17zuoye.net/wxml/-/wxml-2.0.1.tgz#2e62b75b9f01c561e0805b2681fe39b370c482c6"
-  integrity sha512-v5w0o4sGvwLoKu3AgyY6S/naLHtnkrfoUVGbgQDh1rsSsVJW/Xl/sqT6UnWK97IbihWlE70tv5RW815myL+x0A==
+wxml@^2.2.0:
+  version "2.2.0"
+  resolved "http://npm.17zuoye.net/wxml/-/wxml-2.2.0.tgz#91412f1dcbb6592f7ec5d6b5ba736252cfe021df"
+  integrity sha1-kUEvHcu2WS9+xda1unNiUs/gId8=
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"

@@ -31,9 +31,9 @@ module.exports = class CombineResource {
         this.updatePath()
     }
     updatePath() {
-        this.wxml.outputPath = this.wxml.outputPath?.replace("node_modules/", "")
-        this.js.outputPath = this.js.outputPath?.replace("node_modules/", "")
-        this.json.outputPath = this.json.outputPath?.replace("node_modules/", "")
-        this.style.outputPath = this.style.outputPath?.replace("node_modules/", "")
+        this.wxml.outputPath = this.wxml.outputPath && this.wxml.outputPath.replace("node_modules/", "")
+        this.js.outputPath = this.js.outputPath && this.js.outputPath.replace("node_modules/", "")
+        this.json.outputPath = this.json.outputPath && this.json.outputPath.replace("node_modules/", "")
+        this.style.outputPath = this.style.outputPath && this.style.outputPath.replace("node_modules/", "")
     }
 }

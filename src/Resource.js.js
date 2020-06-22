@@ -80,7 +80,7 @@ module.exports = class JsResource extends Resource {
                                             else path.replaceWithMultiple(path.node.consequent.body)
                                     } else if (
                                         types.isStringLiteral(test) ||
-                                        types.isNumberLiteral(test) ||
+                                        types.isNumericLiteral(test) ||
                                         types.isNullLiteral(test) ||
                                         types.isBigIntLiteral(test) ||
                                         types.isBooleanLiteral(test)

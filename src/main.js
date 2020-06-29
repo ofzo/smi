@@ -100,10 +100,20 @@ complier.addResource(appJsPath)
 complier.addResource(appStylePath)
 complier.addResource(siteMapPath)
 
+if (appJson.subPackages) {
+    appJson.subPackages.forEach(sub => {
+        sub.pages = []
+    })
+}
+
 complier.pages.forEach((page) => {
     if (appJson.subPackages) {
-        if (!appJson.subPackages.some(sub => page.pagePath.startsWith(sub.root)))
+        const sub = appJson.subPackages.find(sub => page.pagePath.startsWith(sub.root))
+        if (!sub)
             appJson.pages.push(page.pagePath)
+        else {
+            sub.pages.push(page.pagePath.replace(sub.root + "/", ""))
+        }
     } else {
         appJson.pages.push(page.pagePath)
     }

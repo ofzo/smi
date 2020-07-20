@@ -6,7 +6,7 @@
         "smi": "main.js"
     },
     "scripts": {},
-    "repository": "git@github:uploy/smi",
+    "repository": "git@github:oft/smi",
     "author": "roadup <roadup.inbox@gmail.com>",
     "keywords": [
         "wechat",

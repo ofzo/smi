@@ -62,37 +62,37 @@ module.exports = class JsResource extends Resource {
                         }
                     }, {
                         visitor: {
-                            IfStatement: {
-                                exit(path) {
-                                    const test = path.node.test
-                                    if (types.isBinaryExpression(test)) {
-                                        const left = path.node.test.left.value
-                                        if (typeof left === "undefined") return
-                                        const right = path.node.test.right.value
-                                        if (typeof right === "undefined") return
-                                        const operator = path.node.test.operator
-                                        if (operator === "==")
-                                            // eslint-disable-next-line eqeqeq
-                                            if (left != right) path.remove()
-                                            else path.replaceWithMultiple(path.node.consequent.body)
-                                        else if (operator === "===")
-                                            if (left !== right) path.remove()
-                                            else path.replaceWithMultiple(path.node.consequent.body)
-                                    } else if (
-                                        types.isStringLiteral(test) ||
-                                        types.isNumericLiteral(test) ||
-                                        types.isNullLiteral(test) ||
-                                        types.isBigIntLiteral(test) ||
-                                        types.isBooleanLiteral(test)
-                                    ) {
-                                        if (!!test.value) {
-                                            path.replaceWithMultiple(path.node.consequent.body)
-                                        } else {
-                                            path.remove()
-                                        }
-                                    }
-                                }
-                            }
+                            // IfStatement: {
+                            //     exit(path) {
+                            //         const test = path.node.test
+                            //         if (types.isBinaryExpression(test)) {
+                            //             const left = path.node.test.left.value
+                            //             if (typeof left === "undefined") return
+                            //             const right = path.node.test.right.value
+                            //             if (typeof right === "undefined") return
+                            //             const operator = path.node.test.operator
+                            //             if (operator === "==")
+                            //                 // eslint-disable-next-line eqeqeq
+                            //                 if (left != right) path.remove()
+                            //                 else path.replaceWithMultiple(path.node.consequent.body)
+                            //             else if (operator === "===")
+                            //                 if (left !== right) path.remove()
+                            //                 else path.replaceWithMultiple(path.node.consequent.body)
+                            //         } else if (
+                            //             types.isStringLiteral(test) ||
+                            //             types.isNumericLiteral(test) ||
+                            //             types.isNullLiteral(test) ||
+                            //             types.isBigIntLiteral(test) ||
+                            //             types.isBooleanLiteral(test)
+                            //         ) {
+                            //             if (!!test.value) {
+                            //                 path.replaceWithMultiple(path.node.consequent.body)
+                            //             } else {
+                            //                 path.remove()
+                            //             }
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                 ]

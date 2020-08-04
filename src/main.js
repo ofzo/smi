@@ -107,15 +107,19 @@ if (appJson.subPackages) {
 }
 
 complier.pages.forEach((page) => {
-    if (appJson.subPackages) {
-        const sub = appJson.subPackages.find(sub => page.pagePath.startsWith(sub.root))
-        if (!sub)
+    if (!page.notFound()) {
+        if (appJson.subPackages) {
+            const sub = appJson.subPackages.find(sub => page.pagePath.startsWith(sub.root))
+            if (!sub)
+                appJson.pages.push(page.pagePath)
+            else {
+                sub.pages.push(page.pagePath.replace(sub.root + "/", ""))
+            }
+        } else {
             appJson.pages.push(page.pagePath)
-        else {
-            sub.pages.push(page.pagePath.replace(sub.root + "/", ""))
         }
     } else {
-        appJson.pages.push(page.pagePath)
+        console.log("[页面缺失]", page.pagePath)
     }
 })
 complier.updateResource(appJsonPath, appJson)

@@ -36,4 +36,7 @@ module.exports = class CombineResource {
         this.json.outputPath = this.json.outputPath && this.json.outputPath.replace("node_modules/", "")
         this.style.outputPath = this.style.outputPath && this.style.outputPath.replace("node_modules/", "")
     }
+    notFound() {
+        return this.wxml.notFound && this.js.notFound && this.style.notFound && this.json.notFound
+    }
 }

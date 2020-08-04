@@ -11,6 +11,8 @@ module.exports = class Resource {
     content
     source
     type
+    notFound = false
+
     requires = new Set()
     /**
      *

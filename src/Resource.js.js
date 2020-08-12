@@ -14,7 +14,7 @@ module.exports = class JsResource extends Resource {
         try {
             const self = this
             this.content = babel.transformSync(this.source.toString(), {
-                plugins: [evnReplace,
+                plugins: [evnReplace, "minify-dead-code-elimination", "minify-constant-folding",
                     {
                         visitor: {
                             ImportDeclaration(path) {

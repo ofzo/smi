@@ -159,14 +159,14 @@ module.exports = class Complier {
         this.files.set(appJsonPath, new JsonResource(appJsonPath, config))
     }
 
-    async output() {
+    async output(env) {
         let result = true
         await this.complierModules()
         this.files.forEach(file => { result = file.write() && result })
         if (!result) {
-            console.log("⚠️ 构建有缺陷".yellow)
+            console.log("\n⚠️ 构建有缺陷".yellow + ` (${env}) ${new Date()}`)
         } else {
-            console.log("🏄‍♂️ 构建成功".green)
+            console.log("\n🏄‍♂️ 构建成功".green + ` (${env}) ${new Date()}`)
         }
     }
 }

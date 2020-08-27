@@ -106,6 +106,7 @@ if (appJson.subPackages) {
     })
 }
 
+console.log()
 complier.pages.forEach((page) => {
     if (!page.notFound()) {
         if (appJson.subPackages) {
@@ -119,7 +120,7 @@ complier.pages.forEach((page) => {
             appJson.pages.push(page.pagePath)
         }
     } else {
-        console.log("[页面缺失]", page.pagePath)
+        console.log("[页面缺失]".red, page.pagePath)
     }
 })
 complier.updateResource(appJsonPath, appJson)
@@ -128,4 +129,4 @@ projectConfig.appid = process.env.APP_ID
 projectConfig.libVersion = process.env.SDK_VERSION
 complier.updateResource(projectConfigPath, projectConfig)
 
-complier.output()
+complier.output((process.argv[2] || "beta.env").replace(".env", ""))

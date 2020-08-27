@@ -1,6 +1,6 @@
 {
     "name": "@roadup/smi",
-    "version": "0.2.8",
+    "version": "0.3.0",
     "license": "MIT",
     "bin": {
         "smi": "main.js"

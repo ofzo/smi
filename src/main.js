@@ -15,7 +15,8 @@ if (fs.existsSync(path.resolve(root, ".env")))
 
 if (fs.existsSync(path.resolve(root, process.argv[2] || "beta.env")))
     env += fs.readFileSync(path.resolve(root, process.argv[2] || "beta.env")).toString()
-
+else
+    console.log("配置不存在".red, path.resolve(root, process.argv[2] || "beta.env"))
 env.trim().split("\n").forEach(item => {
     if (!item.trim() || /^\/\//.test(item) || /^#/.test(item)) {
         return

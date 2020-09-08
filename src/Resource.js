@@ -1,5 +1,5 @@
 const mkdirP = require("./mkdirP")
-
+const { dir } = require("./output")
 const requireResolve = require("./requireResolve")
 
 const fs = require("fs")
@@ -25,7 +25,7 @@ module.exports = class Resource {
             this.notFound = true
             return
         }
-        this.outputPath = this.path.replace(process.cwd(), path.resolve(process.cwd(), "dist"))
+        this.outputPath = this.path.replace(process.cwd(), path.resolve(process.cwd(), dir))
         const stat = fs.statSync(this.path)
         this.size = stat.size
         this.type = filePath.split(".").pop()

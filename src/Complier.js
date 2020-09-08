@@ -14,7 +14,7 @@ const Component = require("./Component")
 const Page = require("./Page")
 const Resource = require("./Resource")
 const path = require("path")
-
+const { dir } = require("./output")
 
 module.exports = class Complier {
     constructor(palettes) {
@@ -24,7 +24,7 @@ module.exports = class Complier {
         this.modules = new Set()
         this.palettes = palettes
         this.root = process.cwd()
-        this.dist = path.resolve(this.root, "dist")
+        this.dist = path.resolve(this.root, dir)
     }
     /**
      *
@@ -145,7 +145,7 @@ module.exports = class Complier {
         const modules = [...this.modules]
         for (let index = 0; index < modules.length; index++) {
             const module = modules[index]
-            const output = path.resolve(this.root, "dist/miniprogram_npm", module.name)
+            const output = path.resolve(this.root, `${dir}/miniprogram_npm`, module.name)
             await webComplier(module.path, output)
             const content = mfsRead(path.resolve(output, "index.js"))
             const contentMap = mfsRead(path.resolve(output, "index.js.map"))

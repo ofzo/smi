@@ -6,9 +6,9 @@ const path = require("path")
 const fs = require("fs")
 const Complier = require("./Complier")
 const root = process.cwd()
-const dist = path.resolve(root, "dist")
+const { outputPath } = require("./output")
 
-cleanup(dist)
+cleanup(outputPath)
 let env = ""
 if (fs.existsSync(path.resolve(root, ".env")))
     env = fs.readFileSync(path.resolve(root, ".env")).toString() + "\n"

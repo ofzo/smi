@@ -32,7 +32,12 @@ module.exports = class WXMLResource extends Resource {
                                                     if (attr === "src")
                                                         if (!/^https?:\/\//.test(path.node.value)) {
                                                             if (path.node.value) {
-                                                                self.resolve(path.node.value, self.requires)
+                                                                const index = path.node.value.indexOf("?")
+                                                                let value = path.node.value
+                                                                if (index > 0) {
+                                                                    value = value.slice(0, index)
+                                                                }
+                                                                self.resolve(value, self.requires)
                                                             } else {
                                                                 console.log("[引用错误]".red, self.path.replace(process.cwd(), "."), "src=\"" + path.node.value + "\"")
                                                             }
@@ -40,7 +45,12 @@ module.exports = class WXMLResource extends Resource {
                                                     if (attr === "url")
                                                         if (!/^https?:\/\//.test(path.node.value)) {
                                                             if (path.node.value) {
-                                                                self.resolve(path.node.value, self.pages)
+                                                                const index = path.node.value.indexOf("?")
+                                                                let value = path.node.value
+                                                                if (index > 0) {
+                                                                    value = value.slice(0, index)
+                                                                }
+                                                                self.resolve(value, self.pages)
                                                             } else {
                                                                 console.log("[引用错误]".red, self.path.replace(process.cwd(), "."), "url=\"" + path.node.value + "\"")
                                                             }
@@ -79,7 +89,12 @@ module.exports = class WXMLResource extends Resource {
                                 if (attr === "src")
                                     if (!/^https?:\/\//.test(node.attributes[attr])) {
                                         if (node.attributes[attr]) {
-                                            this.resolve(node.attributes[attr], this.requires)
+                                            const index = node.attributes[attr].indexOf("?")
+                                            let value = node.attributes[attr]
+                                            if (index > 0) {
+                                                value = value.slice(0, index)
+                                            }
+                                            this.resolve(value, this.requires)
                                             node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
                                         } else {
                                             console.log("[引用错误] ".red, self.path, "src=\"" + node.attributes[attr] + "\"")
@@ -89,7 +104,12 @@ module.exports = class WXMLResource extends Resource {
                                 if (attr === "url")
                                     if (!/^https?:\/\//.test(node.attributes[attr])) {
                                         if (node.attributes[attr]) {
-                                            this.resolve(node.attributes[attr], this.pages)
+                                            const index = node.attributes[attr].indexOf("?")
+                                            let value = node.attributes[attr]
+                                            if (index > 0) {
+                                                value = value.slice(0, index)
+                                            }
+                                            this.resolve(value, this.pages)
                                             node.attributes[attr] = node.attributes[attr].replace(/^@/, "/")
                                         } else {
                                             console.log("[引用错误] ".red, self.path, "url=\"" + node.attributes[attr] + "\"")

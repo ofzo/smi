@@ -11,6 +11,9 @@ module.exports = class JsResource extends Resource {
         !this.notFound && this.complier()
     }
     complier() {
+        if (/.min.js$/i.test(this.path)) {
+            return
+        }
         try {
             const self = this
             const code = babel.transformSync(this.source.toString(), {

@@ -1,6 +1,7 @@
 const sass = require("node-sass")
 const Resource = require("./Resource")
 const fs = require("fs")
+const cssTree = require("css-tree")
 
 module.exports = class StyleResource extends Resource {
     constructor(filePath, palettes) {
@@ -43,5 +44,20 @@ module.exports = class StyleResource extends Resource {
             })
         } else
             this.content = this.source
+        const ast = cssTree.parse(this.content)
+        cssTree.walk(ast, function (node, item, path) {
+            if (node.type === "Rule") {
+                if (node.prelude.type === "SelectorList") {
+                    node.prelude.children.forEach(child => {
+                        if (child.type === "Selector") {
+                            if (child.children.some(c => c.type === "ClassSelector" && c.name !== process.env.APP_NAME)) {
+                                // path.remove()
+                            }
+                        }
+                    })
+                }
+            }
+        })
+        this.content = cssTree.generate(ast)
     }
 }

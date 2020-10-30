@@ -51,7 +51,7 @@ module.exports = class WXMLResource extends Resource {
                                 const next = remains[i]
                                 if (!next) break
                                 if (next.type !== 1)
-                                    if (next.type === 3 && next.textContent === "\n") {
+                                    if (next.type === 3 && next.textContent.trim() === "") {
                                         deleteCount++
                                         continue
                                     } else {

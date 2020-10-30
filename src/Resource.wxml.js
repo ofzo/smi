@@ -27,10 +27,8 @@ module.exports = class WXMLResource extends Resource {
                                 plugins: [evnReplace, "minify-constant-folding"]
                             }).code
                             try {
-                                console.log(code)
                                 // eslint-disable-next-line no-eval
                                 rr = eval(code)
-                                console.log("rr", rr)
                             } catch (error) {
                                 // console.error(error)
                             }
@@ -99,10 +97,8 @@ module.exports = class WXMLResource extends Resource {
                                 plugins: [evnReplace, "minify-constant-folding"]
                             }).code
                             try {
-                                console.log(code)
                                 // eslint-disable-next-line no-eval
                                 rr = eval(code)
-                                console.log("rr", rr)
                             } catch (error) {
                                 // console.error(error)
                             }
